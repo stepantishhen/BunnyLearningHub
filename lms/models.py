@@ -1,3 +1,4 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -7,7 +8,7 @@ class Course(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название курса')
     description = models.CharField(max_length=255, verbose_name='Описание курса')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор курса')
-    social_link = models.URLField(verbose_name='Ссылка на соц. сеть')
+    social_link = models.URLField(verbose_name='Ссылка на соц. сеть', null=True, blank=True)
     picture = models.ImageField(upload_to='picrures/', verbose_name='Изображение курса')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -22,11 +23,22 @@ class Course(models.Model):
         ordering = ['-time_create']
 
 
+class Topic(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название темы")
+    description = models.CharField(max_length=255, verbose_name="Описание темы")
+
+    def __str__(self):
+        return f'{self.title} - {self.description}'
+
+    class Meta:
+        verbose_name_plural = 'Темы'
+        verbose_name = 'Тема'
+        ordering = ['-title']
+
+
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Курс')
-    module = models.ForeignKey('Module', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Модуль')
-    homework = models.ForeignKey('Homework', on_delete=models.CASCADE, null=True, blank=True, verbose_name='Домашнее задание')
+    topic = models.ForeignKey('Topic', on_delete=models.CASCADE, verbose_name='Тема')
     message = models.TextField(verbose_name='Сообщение')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -59,7 +71,7 @@ class UserCourse(models.Model):
 class Module(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название модуля')
     description = models.CharField(max_length=255, verbose_name='Описание модуля')
-    content = models.TextField(verbose_name='Содержание модуля')
+    content = RichTextUploadingField(models.Model)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -77,7 +89,7 @@ class Module(models.Model):
 class Homework(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название домашнего задания')
     description = models.CharField(max_length=255, verbose_name='Описание домашнего задания')
-    content = models.TextField(verbose_name='Содержание домашнего задания')
+    content = RichTextUploadingField(models.Model)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
     module = models.ForeignKey(Module, on_delete=models.CASCADE, verbose_name='Модуль')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
