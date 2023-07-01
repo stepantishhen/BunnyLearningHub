@@ -3,16 +3,16 @@
 # Чтобы запустить:
 `git clone https://github.com/stepantishhen/BunnyLearningHub`
 
+'cd BunnyLearningHub/'
 
-`git switch <ваше_имя>`
+`git switch dev`
 
 `pip install -r requirements.txt`
-
-`python manage.py migrate`
 
 !Помести взятый у товарища файлик db.sqlite3 в корень папки (рядом с manage.py)!
 
 `python manage.py runserver`
+
 # Перед коммитом:
 Убедить что ничего не сломал и не добавил лишнего, и передай файлик БД товарищу, если менял в нем тестовые данные
 
