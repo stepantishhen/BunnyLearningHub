@@ -3,7 +3,7 @@
 # Чтобы запустить:
 `git clone https://github.com/stepantishhen/BunnyLearningHub`
 
-'cd BunnyLearningHub/'
+`cd BunnyLearningHub/`
 
 `git switch dev`
 
