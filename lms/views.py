@@ -6,7 +6,7 @@ from lms.models import Module
 
 
 def all_courses(request):
-    return HttpResponse('Все курсы')
+    return render(request, 'lms/all_courses.html')
 
 
 def course_single(request, course_id):
