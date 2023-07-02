@@ -1,34 +1,6 @@
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>shapka</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;subset=cyrillic&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <link rel="stylesheet" href="assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
-    <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
-    <link rel="stylesheet" href="assets/css/Team-Horizontal-images.css">
-</head>
-
-<body>
-    <div class="col">
-        <nav class="navbar navbar-light navbar-expand-md py-3">
-            <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;margin-top: 0px;width: 40px;height: 40px;"><img src="assets/img/easter-bunny%20(1).png" width="27" height="27"></span><span>BunnyLearning Hub</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" placeholder="Type to filter by address"></div>
-                <div class="collapse navbar-collapse" id="navcol-3">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Assignments</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
-                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">Мусик</strong>
-                </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/photo_2023-06-29_15-06-06.jpg">
-            </div>
-        </nav>
-    </div>
+{% extends "lms/base.html" %}
+{% load static %}
+{% block content %}
     <section class="py-4 py-xl-5">
         <div class="container">
             <div class="bg-dark border rounded border-0 border-dark overflow-hidden">
@@ -40,7 +12,7 @@
                             <div class="my-3"></div><a class="btn btn-primary btn-lg me-2" role="button" href="#">Enroll</a>
                         </div>
                     </div>
-                    <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-cover" src="assets/img/1_QOS8cNI-A61sKwLJ8Nf8Iw-2.png"></div>
+                    <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-cover" src="{% static 'lms/assets/img/practical_machine_learning_image.png' %}"></div>
                 </div>
             </div>
         </div>
@@ -95,7 +67,7 @@
                             <div></div>
                             <div class="media-body">
                                 <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
+                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}"></div>
                                     <div class="media-body" style="overflow: visible;">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -112,7 +84,7 @@
                             <div></div>
                             <div class="media-body">
                                 <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
+                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}"></div>
                                     <div class="media-body" style="overflow: visible;">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -128,7 +100,4 @@
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+{% endblock %}

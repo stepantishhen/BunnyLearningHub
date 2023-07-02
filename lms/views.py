@@ -10,7 +10,7 @@ def all_courses(request):
 
 
 def course_single(request, course_id):
-    return HttpResponse('Курс номер:' + str(course_id))
+    return render(request, 'lms/course_page_notenroll.html')
 
 
 def my_courses(request):
