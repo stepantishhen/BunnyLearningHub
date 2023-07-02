@@ -5,5 +5,21 @@ from django.views.generic import ListView
 from lms.models import Module
 
 
-def index(request):
-    return render(request, 'lms/base.html')
+def all_courses(request):
+    return HttpResponse('Все курсы')
+
+
+def course_single(request, course_id):
+    return HttpResponse('Курс номер:' + str(course_id))
+
+
+def my_courses(request):
+    return HttpResponse('Список моих курсов')
+
+
+def module_single(request, course_id, module_id):
+    return HttpResponse('Курс номер: ' + str(course_id) + " модуль: " + str(module_id))
+
+
+def assignments(request):
+    return HttpResponse('Все домашние задания')
