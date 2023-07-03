@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from lms.models import Module, Course
+from lms.models import *
 
 
 def all_courses(request):
@@ -31,4 +31,10 @@ def module_single(request, course_id, module_id):
 
 
 def assignments(request):
-    return HttpResponse('All Домашние задания пользователя')
+    user = request.user
+    assignments = HomeworkAnswer.objects.filter(user=user)
+    context = {
+        'user': user,
+        'assignments': assignments,
+    }
+    return render(request, 'lms/students_assignments.html', context=context)
