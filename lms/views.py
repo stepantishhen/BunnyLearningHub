@@ -14,7 +14,7 @@ def course_single(request, course_id):
 
 
 def my_courses(request):
-    return HttpResponse('Список моих курсов')
+    return HttpResponse('trash Список моих курсов')
 
 
 def module_single(request, course_id, module_id):
