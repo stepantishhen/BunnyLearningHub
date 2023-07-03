@@ -5,15 +5,24 @@ from .models import HomeworkAnswer, Course
 
 from django.views.generic import ListView
 
-from lms.models import Module
+from lms.models import *
 
 
 def all_courses(request):
-    return render(request, 'lms/all_courses.html')
+    context = {
+        'courses': Course.objects.all()
+    }
+    return render(request, 'lms/all_courses.html', context=context)
 
 
 def course_single(request, course_id):
-    return render(request, 'lms/course_page_notenroll.html')
+    course = Course.objects.get(id=course_id)
+    context = {
+        'course': course,
+        'modules': Module.objects.filter(course=course)
+    }
+
+    return render(request, 'lms/course_page_notenroll.html', context=context)
 
 @login_required
 def my_courses(request):
@@ -49,4 +58,10 @@ def module_single(request, course_id, module_id):
 
 
 def assignments(request):
-    return HttpResponse('Домашние задания пользователя')
+    user = request.user
+    assignments = HomeworkAnswer.objects.filter(user=user)
+    context = {
+        'user': user,
+        'assignments': assignments,
+    }
+    return render(request, 'lms/students_assignments.html', context=context)

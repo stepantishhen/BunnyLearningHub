@@ -4,13 +4,15 @@
 <div class="container">
         <h1>Available courses</h1>
     </div>
+    {% for i in courses %}
     <div class="container" style="height: 500px;--bs-light: #50332c;--bs-light-rgb: 80,51,44;color: var(--bs-primary-bg-subtle);">
-        <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5"><img src="{% static 'lms/assets/img/practical_machine_learning_image.png' %}" style="width: 120px;border-radius: 4px;">
+        <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5"><img src="{{ i.picture.url }}" style="width: 120px;border-radius: 4px;">
             <div class="pb-2 pb-lg-1">
-                <h2 class="fw-bold mb-2">Practical Machine Learning</h2>
-                <p class="mb-0">Author: Elena - Candidate of Physical and Mathematical Sciences, graduate of the Yandex School of Data Analysis.</p>
+                <h2 class="fw-bold mb-2">{{ i.name }}</h2>
+                <p class="mb-0">Author: {{ i.author }}</p>
             </div>
-            <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" href="#">View more</a></div>
+            <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" href="{% url 'course_single' i.id %}">View more</a></div>
         </div>
     </div>
+    {% endfor %}
 {% endblock %}
