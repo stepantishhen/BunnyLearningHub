@@ -2,15 +2,24 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from lms.models import Module
+from lms.models import Module, Course
 
 
 def all_courses(request):
-    return render(request, 'lms/all_courses.html')
+    context = {
+        'courses': Course.objects.all()
+    }
+    return render(request, 'lms/all_courses.html', context=context)
 
 
 def course_single(request, course_id):
-    return render(request, 'lms/course_page_notenroll.html')
+    course = Course.objects.get(id=course_id)
+    context = {
+        'course': course,
+        'modules': Module.objects.filter(course=course)
+    }
+
+    return render(request, 'lms/course_page_notenroll.html', context=context)
 
 
 def my_courses(request):
