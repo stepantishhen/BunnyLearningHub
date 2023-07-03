@@ -22,4 +22,4 @@ def module_single(request, course_id, module_id):
 
 
 def assignments(request):
-    return HttpResponse('Все домашние задания')
+    return HttpResponse('Домашние задания пользователя')
