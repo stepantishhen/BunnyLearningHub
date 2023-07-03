@@ -1,51 +1,31 @@
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+{% extends "lms/base.html" %}
+{% load static %}
+{% block content %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>student's_pages</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;subset=cyrillic&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
-    <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
-    <link rel="stylesheet" href="assets/css/Team-Horizontal-images.css">
-</head>
-
-<body>
-    <div class="col">
-        <nav class="navbar navbar-light navbar-expand-md py-3">
-            <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;margin-top: 0px;width: 40px;height: 40px;"><img src="assets/img/easter-bunny%20(1).png" width="27" height="27"></span><span>BunnyLearning Hub</span></a>
-                <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" placeholder="Type to filter by address"></div><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navcol-3">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Assignments</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="#">Courses</a></li>
-                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">Мусик</strong>
-                </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/photo_2023-06-29_15-06-06.jpg">
-            </div>
-        </nav>
-    </div>
     <div class="container">
         <h1 style="color: var(--bs-emphasis-color);">My courses</h1>
     </div>
+
     <div class="container" style="height: 500px;--bs-light: #50332c;--bs-light-rgb: 80,51,44;color: var(--bs-primary-bg-subtle);">
-        <div class="bg-light border-0 border-light d-flex flex-column justify-content-between flex-lg-row border rounded p-4 p-md-5">
-            <div class="d-flex"><img src="assets/img/practical_machine_learning_image.png" style="width: 120px;border-radius: 4px;"></div>
+        {% for course, percent in homeworks_per_course.items %}
+        <div class="bg-light border-0 border-light d-flex flex-column justify-content-between flex-lg-row border rounded p-4 p-md-5 mb-3">
+            <div class="d-flex"><img src="{% static 'lms/assets/img/practical_machine_learning_image.png' %}" style="width: 120px;border-radius: 4px;"></div>
             <div class="d-flex flex-column justify-content-between ms-3" style="margin-left: -226px;padding-left: 0px;">
                 <div class="pb-0 pb-lg-0">
-                    <h2 class="fw-bold mb-0">Practical Machine Learning</h2>
-                    <p class="mb-0">Author: Elena- Candidate of Physical and Mathematical Sciences, graduate of the Yandex School of Data Analysis.</p>
-                </div><div class="progress mt-auto" style="height: 12px;">
-    <div class="progress-bar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 50%;background-color: #8fd57e;color: #50332c;display: flex;justify-content: center;align-items: center;">50%</div>
-</div>
+                    <h2 class="fw-bold mb-0">
+                        {{ course.name }}
+                    </h2>
+                    <p class="mb-0">
+                        {{ course.description }}
+                    </p>
+                </div>
+                <div class="progress mt-auto" style="height: 12px;">
+                    <div class="progress-bar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: 50%;background-color: #8fd57e;color: #50332c;display: flex;justify-content: center;align-items: center;">{{ percent }}</div>
+                </div>
             </div>
             <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" href="#">Resume</a></div>
         </div>
+        {% endfor %}
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
 
-</html>
+{% endblock %}
