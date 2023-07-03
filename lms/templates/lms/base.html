@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>course_pages</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'lms/assets/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'lms/assets/css/Montserrat.css' %}">
     <link rel="stylesheet" href="{% static 'lms/assets/fonts/fontawesome-all.min.css' %}">
@@ -26,7 +26,7 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item"><a class="nav-link" href="#">Assignments</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
-                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">Мусик</strong>
+                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">{{ user.first_name }}</strong>
                 </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
             </div>
         </nav><!-- End: Navbar Centered Links -->
