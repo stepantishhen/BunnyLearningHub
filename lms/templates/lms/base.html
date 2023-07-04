@@ -24,9 +24,11 @@
                 <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" placeholder="Type to filter by address"></div><!-- End: Search Input (responsive) -->
                 <div class="collapse navbar-collapse" id="navcol-3">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" href="{% url 'assignments' %}">Assignments</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'my_courses' %}">Courses</a></li>
-                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">{{ user.first_name }}</strong>
+                        {% url 'assignments' as assignments_url %}
+                        <li class="nav-item "><a class="nav-link {% if request.path == assignments_url %} active {% endif %}" href="{{ assignments_url }}">Assignments</a></li>
+                        {% url 'my_courses' as my_courses_url %}
+                        <li class="nav-item"><a class="nav-link {% if request.path == my_courses_url %} active {% endif %}" href="{{ my_courses_url }}">Courses</a></li>
+                        </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">{{ user.first_name }}</strong>
                 </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
             </div>
         </nav><!-- End: Navbar Centered Links -->
