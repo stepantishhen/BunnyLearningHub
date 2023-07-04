@@ -1,7 +1,9 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 STATUS = [
     ('ns', 'не сдано'),
@@ -12,8 +14,7 @@ STATUS = [
 class Course(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название курса', blank=False)
     description = models.CharField(max_length=255, verbose_name='Описание курса', blank=True)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Автор курса', related_name='authored_courses')
-    social_link = models.URLField(verbose_name='Ссылка на соц. сеть', null=True, blank=True)
+    author = models.ForeignKey('Profile', on_delete=models.SET_NULL, null=True, verbose_name='Автор курса', related_name='authored_courses')
     picture = models.ImageField(upload_to='picrures/', verbose_name='Изображение курса')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -82,10 +83,7 @@ class Module(models.Model):
 
 
 class Homework(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название домашнего задания')
-    description = models.CharField(max_length=255, verbose_name='Описание домашнего задания')
     content = RichTextUploadingField(models.Model)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
     module = models.ForeignKey(Module, on_delete=models.CASCADE, verbose_name='Модуль')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -93,12 +91,12 @@ class Homework(models.Model):
     deadline = models.DateTimeField(verbose_name='Дедлайн')
 
     def __str__(self):
-        return self.name
+        return self.module
 
     class Meta:
         verbose_name_plural = 'Домашние задания'
         verbose_name = 'Домашнее задание'
-        ordering = ['deadline', 'course', 'module', 'is_publish']
+        ordering = ['deadline', 'module', 'is_publish']
 
 
 class HomeworkAnswer(models.Model):
@@ -112,9 +110,36 @@ class HomeworkAnswer(models.Model):
                               choices=STATUS, verbose_name='Статус')
 
     def __str__(self):
-        return f'{self.user.username} - {self.homework.name}'
+        return f'{self.user.username} - {self.homework.module.name}'
 
     class Meta:
         verbose_name_plural = 'Ответы на домашние задания'
         verbose_name = 'Ответ на домашнее задание'
         ordering = ['-time_create', 'user', 'homework', 'status']
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
+    description = models.CharField(max_length=255, verbose_name='Описание')
+    social_link = models.URLField(verbose_name='Ссылка на соц. сеть', null=True, blank=True)
+    avatar = models.ImageField(upload_to='picrures/', verbose_name='Аватарка')
+
+    def __str__(self):
+        return f'{self.user.username}'
+    class Meta:
+        verbose_name_plural = 'Профили'
+        verbose_name = 'Профиль'
+        ordering = ['user']
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    try:
+        instance.profile.save()
+    except ObjectDoesNotExist:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
