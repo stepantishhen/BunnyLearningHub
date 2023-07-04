@@ -8,4 +8,5 @@ urlpatterns = [
     path('my_courses/', my_courses, name='my_courses'),
     path('course/<int:course_id>/module/<int:module_id>',  module_single, name='module_single'),
     path('assignments/',  assignments, name='assignments'),
+    path('add_to_course/<int:course_id>/', add_to_course, name='add_to_course'),
 ]

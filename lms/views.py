@@ -1,6 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from lms.models import *
 
@@ -86,3 +87,7 @@ def assignments(request):
     return render(request, 'lms/students_assignments.html', context=context)
 
 
+def add_to_course(request, course_id):
+    current_user = request.user
+    Course.objects.get(pk=course_id).users.add(current_user)
+    return redirect('course_single', course_id=course_id)
