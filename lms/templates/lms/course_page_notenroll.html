@@ -61,6 +61,7 @@
             <div class="card-body" style="height: 295px;margin-bottom: 6px;">
                 <div class="d-flex"><input type="text" class="form-control me-2" placeholder="Type your comment" aria-label="Comment input"><button class="btn btn-light" type="button">Add Comment</button></div>
                 <ul class="list-group mt-3" style="overflow-y: scroll;">
+                    {% for i in all_messages %}
                     <li class="list-group-item" style="margin-bottom: 6px;">
                         <div class="d-flex media">
                             <div></div>
@@ -70,30 +71,14 @@
                                     <div class="media-body" style="overflow: visible;">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <p><span class="username">SaraDoe:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
+                                                <p><span class="username">{{i.user}}</span>:  {{i.message}} <br><small class="text-muted">{{i.time_create}}</small></p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </li>
-                    <li class="list-group-item" style="margin-bottom: 6px;">
-                        <div class="d-flex media">
-                            <div></div>
-                            <div class="media-body">
-                                <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}"></div>
-                                    <div class="media-body" style="overflow: visible;">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p><span class="username">BrennanPrill:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </li>
                 </ul>
             </div>

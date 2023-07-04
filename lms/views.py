@@ -16,9 +16,12 @@ def all_courses(request):
 @login_required
 def course_single(request, course_id):
     course = Course.objects.get(id=course_id)
+    all_messages = MessageCourse.objects.filter(course=course_id)
     context = {
         'course': course,
-        'modules': Module.objects.filter(course=course)
+        'modules': Module.objects.filter(course=course),
+        'all_messages': all_messages,
+        'profile': Profile.objects.get(user=request.user)
     }
 
     return render(request, 'lms/course_page_notenroll.html', context=context)
