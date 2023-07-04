@@ -1,46 +1,11 @@
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>shapka</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat&amp;subset=cyrillic&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <link rel="stylesheet" href="assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
-    <link rel="stylesheet" href="assets/css/Search-Input-responsive.css">
-    <link rel="stylesheet" href="assets/css/Team-Horizontal-images.css">
-</head>
-
-<body>
-    <div class="col">
-        <nav class="navbar navbar-light navbar-expand-md py-3">
-            <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;margin-top: 0px;width: 40px;height: 40px;"><img src="assets/img/easter-bunny%20(1).png" width="27" height="27"></span><span>BunnyLearning Hub</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" placeholder="Type to filter by address"></div>
-                <div class="collapse navbar-collapse" id="navcol-3">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item"><a class="nav-link" href="#">Assignments</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
-                    </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">Мусик</strong>
-                </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="assets/img/photo_2023-06-29_15-06-06.jpg">
-            </div>
-        </nav>
-    </div>
+{% extends "lms/base.html" %}
+{% load static %}
+{% block content %}
     <div class="container">
         <div class="article-container">
-            <h1 class="article-title" style="margin-top: 12px;">Basic Concepts of Machine Learning</h1>
+            <h1 class="article-title" style="margin-top: 12px;">{{ module.name }}</h1>
             <div class="article-content">
-                <p> Machine learning is a subfield of artificial intelligence that focuses on developing algorithms and statistical models that enable computers to learn from and make predictions or decisions based on data. It is a rapidly growing area of research and has found applications in various industries and domains. </p>
-                <p> At its core, machine learning involves training a model on a dataset to recognize patterns and relationships within the data. The model can then be used to make predictions on new, unseen data. There are several types of machine learning techniques, including supervised learning, unsupervised learning, and reinforcement learning. </p>
-                <p> In supervised learning, the model is trained using labeled data, where each example in the dataset is associated with a target label or outcome. The model learns to map input features to the correct output labels during training and can then be used to predict labels for new data. </p>
-                <p> Unsupervised learning, on the other hand, deals with unlabeled data, and the goal is to find patterns and structures within the data. Clustering and dimensionality reduction are common tasks in unsupervised learning. </p>
-                <p> Reinforcement learning involves training an agent to interact with an environment and learn from the feedback it receives through rewards and penalties. The agent's goal is to maximize cumulative rewards over time. </p>
-                <p> Machine learning algorithms can be further categorized as parametric or non-parametric. Parametric models make assumptions about the underlying data distribution and have a fixed number of parameters. Non-parametric models, on the other hand, are more flexible and can adapt to different data distributions. </p>
-                <p> Overfitting and underfitting are common challenges in machine learning. Overfitting occurs when a model learns to perform well on the training data but fails to generalize to new, unseen data. Underfitting, on the other hand, happens when the model is too simple to capture the underlying patterns in the data. </p>
-                <p> Machine learning is a powerful tool that has revolutionized various fields, including computer vision, natural language processing, finance, healthcare, and more. As technology advances and data becomes more abundant, the potential applications of machine learning continue to grow. </p>
+                <p>{{ module.content | safe }}</p>
             </div>
         </div>
     </div>
@@ -51,7 +16,6 @@
                     <div class="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
                         <div>
                             <h1 class="text-uppercase fw-bold text-white mb-3">assignment</h1>
-                            <p class="mb-4" style="text-align: left;font-size: 14.8px;"><span style="font-weight: normal !important;">Regression Analysis</span><br><span style="font-weight: normal !important; text-decoration: underline;">Task 1:</span><br><span style="font-weight: normal !important;">Load the dataset into a Python environment (such as Jupyter Notebook) using pandas library.</span><br><span style="font-weight: normal !important;">Explore the dataset by checking its shape, columns, and data types.</span><br><span style="font-weight: normal !important;">Preprocess the dataset by handling missing values, if any, and removing irrelevant columns.</span><br><span style="font-weight: normal !important;">Split the dataset into training and testing sets using a 70:30 ratio.</span><br><span style="font-weight: normal !important; text-decoration: underline;">Task 2:</span><br><span style="font-weight: normal !important;">Implement linear regression using scikit-learn library.</span><br><span style="font-weight: normal !important;">Train the linear regression model on the training set.</span><br><span style="font-weight: normal !important;">Evaluate the model's performance by calculating the mean squared error (MSE) and coefficient of determination (R²) on the testing set.</span><br><span style="font-weight: normal !important;">Plot a scatter plot of the actual housing prices against the predicted housing prices.</span><br><span style="font-weight: normal !important;">Interpret the results and discuss the performance of the linear regression model.</span><br><span style="font-weight: normal !important; text-decoration: underline;">Task 3:</span><br><span style="font-weight: normal !important;">Implement polynomial regression using scikit-learn library.</span><br><span style="font-weight: normal !important;">Train the polynomial regression model on the training set.</span><br><span style="font-weight: normal !important;">Evaluate the model's performance by calculating the MSE and R² on the testing set.</span><br><span style="font-weight: normal !important;">Compare the performance of the polynomial regression model with the linear regression model.</span><br><span style="font-weight: normal !important;">Discuss the benefits and limitations of using polynomial regression.</span></p>
                         </div>
                     </div>
                 </div>
@@ -66,7 +30,7 @@
                     <p class="mb-0">Google Disk links only.</p>
                 </div>
                 <div class="d-flex flex-column justify-content-center align-items-center my-2">
-                    <p class="mb-0">Deadline: July 1, 2023</p>
+                    <p class="mb-0">Deadline: {{ assignment.deadline }}</p>
                     <form class="d-flex justify-content-center flex-wrap my-2" method="post">
                         <div class="my-2"><input class="form-control form-control" type="email" name="email" placeholder="Enter Link"></div>
                         <div class="my-2"><button class="btn btn-primary ms-sm-2" type="submit">Submit</button></div>
@@ -121,7 +85,4 @@
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+{% endblock %}
