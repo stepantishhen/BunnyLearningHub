@@ -22,7 +22,8 @@ def course_single(request, course_id):
         'course': course,
         'modules': Module.objects.filter(course=course),
         'all_messages': all_messages,
-        'profile': Profile.objects.get(user=request.user)
+        'profile': Profile.objects.get(user=request.user),
+        'is_user_in_course': request.user in course.users.all(),
     }
 
     return render(request, 'lms/course_page_notenroll.html', context=context)
@@ -62,8 +63,13 @@ def my_courses(request):
 
 @login_required
 def module_single(request, course_id, module_id):
-    return HttpResponse('Курс номер: ' + str(course_id) + " модуль: " + str(module_id))
-
+    module = Module.objects.get(course=course_id, pk=module_id)
+    assignment = Homework.objects.filter(module=module)
+    context = {
+        'module': module,
+        'assignment': assignment
+    }
+    return render(request, 'lms/module_single.html', context=context)
 
 @login_required
 def assignments(request):

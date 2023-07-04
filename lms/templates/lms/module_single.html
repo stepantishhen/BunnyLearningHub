@@ -1,0 +1,88 @@
+{% extends "lms/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="article-container">
+            <h1 class="article-title" style="margin-top: 12px;">{{ module.name }}</h1>
+            <div class="article-content">
+                <p>{{ module.content | safe }}</p>
+            </div>
+        </div>
+    </div>
+    <section class="py-4 py-xl-5">
+        <div class="container h-100">
+            <div class="text-white bg-primary border rounded border-0 p-4 py-5">
+                <div class="row h-100">
+                    <div class="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
+                        <div>
+                            <h1 class="text-uppercase fw-bold text-white mb-3">assignment</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="py-4 py-xl-5">
+        <div class="container">
+            <div class="text-dark bg-light border-0 border-light d-flex flex-column justify-content-between align-items-center flex-lg-row border rounded p-4 p-lg-5" data-bs-theme="light">
+                <div class="text-center text-lg-start py-3 py-lg-1">
+                    <h2 class="fw-bold mb-2">Send your assignment</h2>
+                    <p class="mb-0">Google Disk links only.</p>
+                </div>
+                <div class="d-flex flex-column justify-content-center align-items-center my-2">
+                    <p class="mb-0">Deadline: {{ assignment.deadline }}</p>
+                    <form class="d-flex justify-content-center flex-wrap my-2" method="post">
+                        <div class="my-2"><input class="form-control form-control" type="email" name="email" placeholder="Enter Link"></div>
+                        <div class="my-2"><button class="btn btn-primary ms-sm-2" type="submit">Submit</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Discussions</h3>
+            </div>
+            <div class="card-body" style="height: 295px;margin-bottom: 6px;">
+                <div class="d-flex"><input type="text" class="form-control me-2" placeholder="Type your comment" aria-label="Comment input"><button class="btn btn-light" type="button">Add Comment</button></div>
+                <ul class="list-group mt-3" style="overflow-y: scroll;">
+                    <li class="list-group-item" style="margin-bottom: 6px;">
+                        <div class="d-flex media">
+                            <div></div>
+                            <div class="media-body">
+                                <div class="d-flex media" style="overflow: visible;">
+                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
+                                    <div class="media-body" style="overflow: visible;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p><span class="username">SaraDoe:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item" style="margin-bottom: 6px;">
+                        <div class="d-flex media">
+                            <div></div>
+                            <div class="media-body">
+                                <div class="d-flex media" style="overflow: visible;">
+                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
+                                    <div class="media-body" style="overflow: visible;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p><span class="username">BrennanPrill:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
