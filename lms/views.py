@@ -1,11 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import HomeworkAnswer, Course
-
-from django.views.generic import ListView
 
 from lms.models import *
+
 
 @login_required
 def all_courses(request):
@@ -13,6 +11,7 @@ def all_courses(request):
         'courses': Course.objects.all()
     }
     return render(request, 'lms/all_courses.html', context=context)
+
 
 @login_required
 def course_single(request, course_id):
@@ -23,6 +22,7 @@ def course_single(request, course_id):
     }
 
     return render(request, 'lms/course_page_notenroll.html', context=context)
+
 
 @login_required
 def my_courses(request):
@@ -50,9 +50,11 @@ def my_courses(request):
                   'lms/my_courses.html',
                   context=context)
 
+
 @login_required
 def module_single(request, course_id, module_id):
     return HttpResponse('Курс номер: ' + str(course_id) + " модуль: " + str(module_id))
+
 
 @login_required
 def assignments(request):
