@@ -28,8 +28,13 @@
                         <li class="nav-item "><a class="nav-link {% if request.path == assignments_url %} active {% endif %}" href="{{ assignments_url }}">Assignments</a></li>
                         {% url 'my_courses' as my_courses_url %}
                         <li class="nav-item"><a class="nav-link {% if request.path == my_courses_url %} active {% endif %}" href="{{ my_courses_url }}">Courses</a></li>
-                        </ul><strong style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px;">{{ user.first_name }}</strong>
-                </div><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
+                        </ul>
+                    {% url 'profile_edit' as profile_edit_url %}
+                    <li style="margin-left: 1px;padding-right: 10px;padding-left: 10px;margin-right: 0px; list-style-type: none;" class="nav-item1">
+                        <a class="nav-link {% if request.path == profile_edit_url %} active {% endif %}" href="{{ profile_edit_url }}">{{ user.first_name }}</a>
+                    </li>
+                </div>
+                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
             </div>
         </nav><!-- End: Navbar Centered Links -->
     </div>

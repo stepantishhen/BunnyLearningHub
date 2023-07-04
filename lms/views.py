@@ -80,3 +80,6 @@ def add_to_course(request, course_id):
     current_user = request.user
     Course.objects.get(pk=course_id).users.add(current_user)
     return redirect('course_single', course_id=course_id)
+
+def profile_edit(request):
+    return render(request, 'lms/profile_edit.html')
