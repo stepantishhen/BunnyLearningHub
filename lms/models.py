@@ -91,7 +91,7 @@ class Homework(models.Model):
     deadline = models.DateTimeField(verbose_name='Дедлайн')
 
     def __str__(self):
-        return self.module
+        return self.module.name
 
     class Meta:
         verbose_name_plural = 'Домашние задания'
