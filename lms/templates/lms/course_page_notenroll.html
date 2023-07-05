@@ -62,30 +62,41 @@
             <div class="card-header">
                 <h3>Discussions</h3>
             </div>
-            <div class="card-body" style="height: 295px;margin-bottom: 6px;">
-                <div class="d-flex"><input type="text" class="form-control me-2" placeholder="Type your comment" aria-label="Comment input"><button class="btn btn-light" type="button">Add Comment</button></div>
-                <ul class="list-group mt-3" style="overflow-y: scroll;">
-                    {% for i in all_messages %}
-                    <li class="list-group-item" style="margin-bottom: 6px;">
-                        <div class="d-flex media">
-                            <div></div>
-                            <div class="media-body">
-                                <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}"></div>
-                                    <div class="media-body" style="overflow: visible;">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p><span class="username">{{i.user}}</span>:  {{i.message}} <br><small class="text-muted">{{i.time_create}}</small></p>
-                                            </div>
-                                        </div>
-                                    </div>
+            <div class="card-body" style="height: 295px; margin-bottom: 6px;">
+                <form method="post">{% csrf_token %}
+                <div class="d-flex">
+                    <input type="text" class="form-control me-2" name="comment" placeholder="Type your comment" aria-label="Comment input">
+                    <button class="btn btn-light" type="submit">Add Comment</button>
+                </div>
+            </form>
+    <ul class="list-group mt-3" style="overflow-y: scroll;">
+        {% for comment in all_messages %}
+        <li class="list-group-item" style="margin-bottom: 6px;">
+            <div class="d-flex media">
+                <div></div>
+                <div class="media-body">
+                    <div class="d-flex media" style="overflow: visible;">
+                        <div>
+                            <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}">
+                        </div>
+                        <div class="media-body" style="overflow: visible;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <span class="username">{{ comment.user }}</span>: {{ comment.message }}<br>
+                                        <small class="text-muted">{{ comment.time_create }}</small>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
         </div>
     </div>
 {% endblock %}
