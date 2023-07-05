@@ -29,7 +29,8 @@ def course_single(request, course_id):
         'modules': Module.objects.filter(course=course),
         'all_messages': all_messages,
         'author_profile': course.author,
-        'profile': profile
+        'profile': profile,
+        'is_user_in_course': request.user in course.users.all(),
     }
 
     return render(request, 'lms/course_page_notenroll.html', context=context)
@@ -98,12 +99,7 @@ def assignments(request):
 def add_to_course(request, course_id):
     current_user = request.user
     Course.objects.get(pk=course_id).users.add(current_user)
-    profile = Profile.objects.filter(user=current_user).first()
-    context = {
-        'course_id': course_id,
-        'profile': profile
-    }
-    return redirect('course_single', context)
+    return redirect('course_single', course_id)
 
 @login_required
 def profile_edit(request):
