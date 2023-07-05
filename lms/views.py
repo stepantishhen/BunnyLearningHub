@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 from django.urls import reverse
 
 from lms.models import *
@@ -107,6 +108,7 @@ def add_to_course(request, course_id):
 @login_required
 def profile_edit(request):
     user = request.user
+    profile = Profile.objects.filter(user=user).first()
     if request.method == 'POST':
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
@@ -116,14 +118,20 @@ def profile_edit(request):
 
         user.first_name = first_name
         user.last_name = last_name
-
         user.email = email
 
         if password and password == confirm_password:
             user.set_password(password)
 
+        if 'avatar-file' in request.FILES:
+            avatar_file = request.FILES['avatar-file']
+            profile.avatar = avatar_file
+            profile.save()
+
         user.save()
-    profile = Profile.objects.filter(user=user).first()
+        profile.save()
+
+
     context = {
         'profile': profile
     }

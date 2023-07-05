@@ -3,14 +3,18 @@
 {% block content %}
 
     <div class="container profile profile-view" id="profile">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row profile-row">
                 <div class="col-md-4 relative">
                     <div class="avatar">
-                        <div class="avatar-bg center"></div>
-                    </div><input class="form-control form-control" type="file" name="avatar-file">
+                        <div class="avatar-bg center">
+                            <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="200" height="200" src="{{ profile.avatar.url }}">
+                        </div>
+                    </div>
+                    <input class="form-control form-control" type="file" name="avatar-file" accept="image/*">
                 </div>
+
                 <div class="col-md-8">
                     <h1>Profile </h1>
                     <hr>
