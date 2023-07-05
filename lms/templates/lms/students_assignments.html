@@ -6,29 +6,32 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body" style="border-width: 1px;background: #e1d6c9;">
-                        <div class="dropdown"><button class="btn btn-primary dropdown-toggle text-start" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(225, 214, 201);color: var(--bs-primary);width: 100%;">deadline</button>
-                            <div class="dropdown-menu" style="width: 100%;">
-                                <a class="dropdown-item" href="#">burning from above</a>
-                                <a class="dropdown-item" href="#">non-burning from above</a>
-                            </div>
-                        </div>
-                        <div class="dropdown" style="margin-top: 10px;"><button class="btn btn-primary dropdown-toggle text-start" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(225, 214, 201);color: var(--bs-primary);width: 100%;">status</button>
-                            <div class="dropdown-menu" style="width: 100%;">
-                                <a class="dropdown-item" href="#">not submitted</a>
-                                <a class="dropdown-item" href="#">submitted</a>
-                                <a class="dropdown-item" href="#">checked</a>
-                            </div>
-                        </div>
-                        <div class="dropdown" style="margin-top: 10px;"><button class="btn btn-primary dropdown-toggle text-start" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(225, 214, 201);color: var(--bs-primary);width: 100%;">course</button>
-                            <div class="dropdown-menu" style="width: 100%;"><a class="dropdown-item" href="#">Practical machine Learning</a></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg me-2">Apply</button>
+                        <form method="post">
+                            <label for="">deadline</label>
+                            <select class="form-select" aria-label="Default select example">
+                              <option value="-deadline">burning from above</option>
+                              <option value="deadline">non-burning from above</option>
+                            </select>
+                            <label for="" class="mt-3">status</label>
+                            <select class="form-select" aria-label="Default select example">
+                              <option value="rat">checked</option>
+                              <option value="ns">not submitted</option>
+                              <option value="s">submitted</option>
+                            </select>
+                            <label for="" class="mt-3">course</label>
+                             <select class="form-select" aria-label="Default select example">
+                                 {% for i in completed_courses  %}
+                                     <option value="{{ i.name}}">{{ i.name}}</option>
+                                 {% endfor %}
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-3">Apply</button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 {% for i in assignments %}
-                <div class="card" style="border-style: none;">
+                <div class="card mb-3" style="border-style: none;">
                     <div class="card-body" style="border: 1px solid #986155;border-radius: 6px;margin-top: 0px;">
                         <h1 style="font-size: 20px;">{{ i.homework }}</h1>
                         <h6 class="text-muted card-subtitle mb-2">{{ i.module }}</h6>

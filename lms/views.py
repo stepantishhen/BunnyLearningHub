@@ -86,12 +86,15 @@ def module_single(request, course_id, module_id):
 @login_required
 def assignments(request):
     user = request.user
-    assignments = HomeworkAnswer.objects.filter(user=user)
+    assignments = HomeworkAnswer.objects.filter(user=user).order_by('-homework__deadline')
     profile = Profile.objects.filter(user=user).first()
+    completed_courses = Course.objects.filter(module__homework__homeworkanswer__user=user,
+                                              module__homework__homeworkanswer__status='rat').distinct()
     context = {
         'user': user,
         'assignments': assignments,
-        'profile': profile
+        'completed_courses': completed_courses,
+        'profile': profile,
     }
     return render(request, 'lms/students_assignments.html', context=context)
 
