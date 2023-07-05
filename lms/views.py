@@ -22,8 +22,7 @@ def course_single(request, course_id):
         'course': course,
         'modules': Module.objects.filter(course=course),
         'all_messages': all_messages,
-        'profile': Profile.objects.get(user=request.user),
-        'is_user_in_course': request.user in course.users.all(),
+        'author_profile': course.author,
     }
 
     return render(request, 'lms/course_page_notenroll.html', context=context)
