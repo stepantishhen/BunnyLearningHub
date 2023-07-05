@@ -87,5 +87,23 @@ def add_to_course(request, course_id):
     Course.objects.get(pk=course_id).users.add(current_user)
     return redirect('course_single', course_id=course_id)
 
+@login_required
 def profile_edit(request):
+    if request.method == 'POST':
+        user = request.user
+        first_name = request.POST['firstname']
+        last_name = request.POST['lastname']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirmpass']
+
+        user.first_name = first_name
+        user.last_name = last_name
+
+        user.email = email
+
+        if password and password == confirm_password:
+            user.set_password(password)
+
+        user.save()
     return render(request, 'lms/profile_edit.html')

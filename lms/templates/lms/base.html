@@ -34,7 +34,9 @@
                         <a class="nav-link {% if request.path == profile_edit_url %} active {% endif %}" href="{{ profile_edit_url }}">{{ user.first_name }}</a>
                     </li>
                 </div>
-                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
+                <a href="{{ profile_edit_url }}">
+                    <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
+                </a>
             </div>
         </nav><!-- End: Navbar Centered Links -->
     </div>
