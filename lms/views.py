@@ -70,6 +70,7 @@ def my_courses(request):
 
 @login_required
 def module_single(request, course_id, module_id):
+    user = request.user
     module = Module.objects.get(course=course_id, pk=module_id)
     assignment = Homework.objects.filter(module=module)
     profile = Profile.objects.filter(user=user).first()
