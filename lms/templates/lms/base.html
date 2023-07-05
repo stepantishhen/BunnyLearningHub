@@ -35,7 +35,11 @@
                     </li>
                 </div>
                 <a href="{{ profile_edit_url }}">
-                    <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{{ profile.avatar.url }}">
+                    {% if profile.avatar %}
+                        <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{{ profile.avatar.url }}">
+                    {% else %}
+                        <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{% static 'lms/assets/img/photo_2023-06-29_15-06-06.jpg' %}">
+                    {% endif %}
                 </a>
             </div>
         </nav><!-- End: Navbar Centered Links -->
