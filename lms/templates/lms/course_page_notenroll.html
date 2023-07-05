@@ -73,6 +73,7 @@
             </form>
     <ul class="list-group mt-3" style="overflow-y: scroll;">
         {% for comment in all_messages %}
+        {% if comment.is_publish %}
 <li class="list-group-item" style="margin-bottom: 6px;">
     <div class="d-flex media">
         <div></div>
@@ -99,6 +100,7 @@
         </div>
     </div>
 </li>
+        {% endif %}
 {% endfor %}
 
     </ul>
