@@ -54,7 +54,9 @@
     <div class="container">
         <h3 style="padding-bottom: 0px;margin-bottom: 11px;">Course Program</h3>
         {% for i in modules %}
-            <div class="alert alert-success" role="alert" style="color: rgb(0,0,0);background: #e1d6c9;display: flex;align-items: center;"><i class="fas fa-hashtag" style="font-size: 12px;margin: 4px;padding: 0px;"></i><span style="flex-grow: 1;">{{i.name}}</span>{% if is_user_in_course %}<a class="btn btn-primary" href="{% url 'module_single' course.pk i.pk %}" style="margin-left: auto;">Go on the module</a>{% endif %}</div>
+            {% if i.is_publish %}
+                <div class="alert alert-success" role="alert" style="color: rgb(0,0,0);background: #e1d6c9;display: flex;align-items: center;"><i class="fas fa-hashtag" style="font-size: 12px;margin: 4px;padding: 0px;"></i><span style="flex-grow: 1;">{{i.name}}</span>{% if is_user_in_course %}<a class="btn btn-primary" href="{% url 'module_single' course.pk i.pk %}" style="margin-left: auto;">Go on the module</a>{% endif %}</div>
+            {% endif %}
         {% endfor %}
     </div>
     <div class="container">

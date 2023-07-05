@@ -20,7 +20,11 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>No courses found.</p>
+            <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5 mb-3">
+                    <div class="pb-2 pb-lg-1">
+                        <h2 class="fw-bold mb-2" style="align: center; width:700px;">Searching course doesn't exist</h2>
+                    </div>
+                </div>
         {% endif %}
     </div>
 {% endblock %}
