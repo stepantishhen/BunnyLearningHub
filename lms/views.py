@@ -82,19 +82,37 @@ def my_courses(request):
 def module_single(request, course_id, module_id):
     user = request.user
     module = Module.objects.get(course=course_id, pk=module_id)
-    assignment = Homework.objects.filter(module=module)
+    assignment = Homework.objects.filter(module=module).first()
     profile = Profile.objects.filter(user=user).first()
+    homework_answer = HomeworkAnswer.objects.filter(user=user, homework=assignment).first()
+    messages = MessageModule.objects.filter(module=module)
+
+    if request.method == 'POST':
+        if 'homework_form' in request.POST:
+            google_drive_link = request.POST.get('google_drive_link')
+            if google_drive_link:
+                HomeworkAnswer.objects.create(user=user, homework=assignment, google_disk_url_folder=google_drive_link, status='s')
+                return redirect('module_single', course_id=course_id, module_id=module_id)
+        elif 'message_form' in request.POST:
+            message = request.POST.get('message')
+            if message:
+                MessageModule.objects.create(user=user, message=message, module=module)
+                return redirect('module_single', course_id=course_id, module_id=module_id)
+
     context = {
         'module': module,
         'assignment': assignment,
-        'profile': profile
+        'profile': profile,
+        'homework_answer': homework_answer,
+        'messages': messages
     }
     return render(request, 'lms/module_single.html', context=context)
+
 
 @login_required
 def assignments(request):
     user = request.user
-    assignments = HomeworkAnswer.objects.filter(user=user).order_by('-homework__deadline')
+    assignments = HomeworkAnswer.objects.filter(user=user).order_by('-homework__deadline', '-time_create')
     profile = Profile.objects.filter(user=user).first()
     completed_courses = Course.objects.filter(module__homework__homeworkanswer__user=user,
                                               module__homework__homeworkanswer__status='rat').distinct()
@@ -111,6 +129,7 @@ def add_to_course(request, course_id):
     current_user = request.user
     Course.objects.get(pk=course_id).users.add(current_user)
     return redirect('course_single', course_id)
+
 
 @login_required
 def profile_edit(request):
@@ -138,11 +157,11 @@ def profile_edit(request):
         user.save()
         profile.save()
 
-
     context = {
         'profile': profile
     }
     return render(request, 'lms/profile_edit.html', context=context)
+
 
 @login_required
 def search(request):
@@ -152,5 +171,3 @@ def search(request):
     else:
         search_results = []
     return render(request, 'lms/search.html', {'search_results': search_results})
-
-

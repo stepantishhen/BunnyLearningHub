@@ -6,9 +6,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 STATUS = [
-    ('ns', 'не сдано'),
-    ('s', 'сдано'),
-    ('rat', 'оценено')]
+    ('ns', 'not submitted'),
+    ('s', 'submitted'),
+    ('rat', 'checked')]
 
 
 class Course(models.Model):
@@ -115,7 +115,7 @@ class HomeworkAnswer(models.Model):
     class Meta:
         verbose_name_plural = 'Ответы на домашние задания'
         verbose_name = 'Ответ на домашнее задание'
-        ordering = ['-time_create', 'user', 'homework', 'status']
+        ordering = ['time_create', 'user', 'homework', 'status']
 
 
 class Profile(models.Model):

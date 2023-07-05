@@ -16,6 +16,7 @@
                     <div class="col-md-10 col-xl-8 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
                         <div>
                             <h1 class="text-uppercase fw-bold text-white mb-3">assignment</h1>
+                            {{ assignment.content | safe }}
                         </div>
                     </div>
                 </div>
@@ -31,9 +32,18 @@
                 </div>
                 <div class="d-flex flex-column justify-content-center align-items-center my-2">
                     <p class="mb-0">Deadline: {{ assignment.deadline }}</p>
+                    <p class="mb-0">Time create: {{ homework_answer.time_create }}</p>
+                    <p class="mb-0">Status: {{ homework_answer.get_status_display }} </p>
+                    <p class="mb-0">Mark: {{ homework_answer.mark }} </p>
                     <form class="d-flex justify-content-center flex-wrap my-2" method="post">
-                        <div class="my-2"><input class="form-control form-control" type="email" name="email" placeholder="Enter Link"></div>
-                        <div class="my-2"><button class="btn btn-primary ms-sm-2" type="submit">Submit</button></div>
+                        {% csrf_token %}
+                        <input type="hidden" name="homework_form">
+                        <div class="my-2">
+                            <input class="form-control form-control" type="text" name="google_drive_link" placeholder="Enter Google Drive link">
+                        </div>
+                        <div class="my-2">
+                            <button class="btn btn-primary ms-sm-2" type="submit">Submit Homework</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -45,43 +55,51 @@
                 <h3>Discussions</h3>
             </div>
             <div class="card-body" style="height: 295px;margin-bottom: 6px;">
-                <div class="d-flex"><input type="text" class="form-control me-2" placeholder="Type your comment" aria-label="Comment input"><button class="btn btn-light" type="button">Add Comment</button></div>
+                <div class="d-flex">
+                    <form class="d-flex justify-content-center flex-wrap my-2" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="message_form">
+                        <div class="my-2">
+                            <input type="text" class="form-control me-2" name="message" placeholder="Type your comment" aria-label="Comment input">
+                        </div>
+                        <div class="my-2">
+                            <button class="btn btn-light" type="submit">Add Comment</button>
+                        </div>
+                    </form>
+                </div>
                 <ul class="list-group mt-3" style="overflow-y: scroll;">
-                    <li class="list-group-item" style="margin-bottom: 6px;">
-                        <div class="d-flex media">
-                            <div></div>
-                            <div class="media-body">
-                                <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
-                                    <div class="media-body" style="overflow: visible;">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p><span class="username">SaraDoe:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        {% for comment in messages %}
+        {% if comment.is_publish %}
+<li class="list-group-item" style="margin-bottom: 6px;">
+    <div class="d-flex media">
+        <div></div>
+        <div class="media-body">
+            <div class="d-flex media" style="overflow: visible;">
+                <div>
+                    {% if comment.user.profile.avatar %}
+                        <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{{ comment.user.profile.avatar.url }}">
+                    {% else %}
+                        <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{% static 'lms/assets/img/Screenshot_6.png' %}">
+                    {% endif %}
+                </div>
+                <div class="media-body" style="overflow: visible;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                <span class="username">{{ comment.user }}</span>: {{ comment.message }}<br>
+                                <small class="text-muted">{{ comment.time_create }}</small>
+                            </p>
                         </div>
-                    </li>
-                    <li class="list-group-item" style="margin-bottom: 6px;">
-                        <div class="d-flex media">
-                            <div></div>
-                            <div class="media-body">
-                                <div class="d-flex media" style="overflow: visible;">
-                                    <div><img class="rounded-circle me-3" style="width: 35px;height: 35px;" src="assets/img/user-photo4.jpg"></div>
-                                    <div class="media-body" style="overflow: visible;">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p><span class="username">BrennanPrill:</span> This guy has been going 100+ MPH on side streets. <br><small class="text-muted">August 6, 2016 @ 10:35am </small></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+        {% endif %}
+{% endfor %}
+
+    </ul>
             </div>
         </div>
     </div>

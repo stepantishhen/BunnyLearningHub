@@ -35,8 +35,10 @@
                     <div class="card-body" style="border: 1px solid #986155;border-radius: 6px;margin-top: 0px;">
                         <h1 style="font-size: 20px;">{{ i.homework }}</h1>
                         <h6 class="text-muted card-subtitle mb-2">{{ i.module }}</h6>
-                        <p class="card-text" style="margin-bottom: 0px;">Status: {{ i.status }}</p>
-                        <p class="card-text" style="margin-bottom: 0px;">{{ i.homework.course }}</p>
+                        <p class="card-text">Deadline: {{ i.deadline }}</p>
+                        <p class="card-text">Time create: {{ i.time_update }}</p>
+                        <p class="card-text">Status: {{ i.get_status_display }} </p>
+                        <p class="card-text">Mark: {{ i.mark }} </p>
                         <p>Deadline: {{ i.homework.deadline }}</p><a class="btn btn-primary" href="#" style="margin-left: auto;">Open</a>
                     </div>
                 </div>
