@@ -31,12 +31,14 @@ def course_single(request, course_id):
         course = Course.objects.get(id=course_id)
         all_messages = MessageCourse.objects.filter(course=course_id)
         profile = Profile.objects.filter(user=user).first()
+
         context = {
             'course': course,
             'modules': Module.objects.filter(course=course),
             'all_messages': all_messages,
             'author_profile': course.author,
             'profile': profile,
+            'Profile': Profile,
             'is_user_in_course': request.user in course.users.all()
         }
         return render(request, 'lms/course_page_notenroll.html', context=context)

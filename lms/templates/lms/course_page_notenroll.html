@@ -71,29 +71,34 @@
             </form>
     <ul class="list-group mt-3" style="overflow-y: scroll;">
         {% for comment in all_messages %}
-        <li class="list-group-item" style="margin-bottom: 6px;">
-            <div class="d-flex media">
-                <div></div>
-                <div class="media-body">
-                    <div class="d-flex media" style="overflow: visible;">
-                        <div>
-                            <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{% static 'lms/assets/img/user-photo4.jpg' %}">
-                        </div>
-                        <div class="media-body" style="overflow: visible;">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>
-                                        <span class="username">{{ comment.user }}</span>: {{ comment.message }}<br>
-                                        <small class="text-muted">{{ comment.time_create }}</small>
-                                    </p>
-                                </div>
-                            </div>
+<li class="list-group-item" style="margin-bottom: 6px;">
+    <div class="d-flex media">
+        <div></div>
+        <div class="media-body">
+            <div class="d-flex media" style="overflow: visible;">
+                <div>
+                    {% if comment.user.profile.avatar %}
+                        <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{{ comment.user.profile.avatar.url }}">
+                    {% else %}
+                        <img class="rounded-circle me-3" style="width: 35px; height: 35px;" src="{% static 'lms/assets/img/Screenshot_6.png' %}">
+                    {% endif %}
+                </div>
+                <div class="media-body" style="overflow: visible;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                <span class="username">{{ comment.user }}</span>: {{ comment.message }}<br>
+                                <small class="text-muted">{{ comment.time_create }}</small>
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </li>
-        {% endfor %}
+        </div>
+    </div>
+</li>
+{% endfor %}
+
     </ul>
 </div>
 
