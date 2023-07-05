@@ -20,20 +20,28 @@ def all_courses(request):
 
 @login_required
 def course_single(request, course_id):
-    user = request.user
-    course = Course.objects.get(id=course_id)
-    all_messages = MessageCourse.objects.filter(course=course_id)
-    profile = Profile.objects.filter(user=user).first()
-    context = {
-        'course': course,
-        'modules': Module.objects.filter(course=course),
-        'all_messages': all_messages,
-        'author_profile': course.author,
-        'profile': profile,
-        'is_user_in_course': request.user in course.users.all(),
-    }
+    if request.method == 'POST':
+        comment_text = request.POST.get('comment')
+        user = request.user
+        course = Course.objects.get(id=course_id)
+        MessageCourse.objects.create(user=user, message=comment_text, course=course)
+        return redirect('course_single', course_id)
+    elif request.method == 'GET':
+        user = request.user
+        course = Course.objects.get(id=course_id)
+        all_messages = MessageCourse.objects.filter(course=course_id)
+        profile = Profile.objects.filter(user=user).first()
 
-    return render(request, 'lms/course_page_notenroll.html', context=context)
+        context = {
+            'course': course,
+            'modules': Module.objects.filter(course=course),
+            'all_messages': all_messages,
+            'author_profile': course.author,
+            'profile': profile,
+            'Profile': Profile,
+            'is_user_in_course': request.user in course.users.all()
+        }
+        return render(request, 'lms/course_page_notenroll.html', context=context)
 
 
 @login_required
@@ -135,3 +143,14 @@ def profile_edit(request):
         'profile': profile
     }
     return render(request, 'lms/profile_edit.html', context=context)
+
+@login_required
+def search(request):
+    query = request.GET.get('query')
+    if query:
+        search_results = Course.objects.filter(name__icontains=query)
+    else:
+        search_results = []
+    return render(request, 'lms/search.html', {'search_results': search_results})
+
+

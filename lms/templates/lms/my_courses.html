@@ -8,23 +8,25 @@
 
     <div class="container" style="height: 500px;--bs-light: #50332c;--bs-light-rgb: 80,51,44;color: var(--bs-primary-bg-subtle);">
         {% for course, percent in homeworks_per_course.items %}
-        <div class="bg-light border-0 border-light d-flex flex-column justify-content-between flex-lg-row border rounded p-4 p-md-5 mb-3">
-            <div class="d-flex"><img src="{{ course.picture.url }}" style="width: 120px;border-radius: 4px;"></div>
-            <div class="d-flex flex-column justify-content-between ms-3" style="margin-left: -226px;padding-left: 0px;align: center;width: 700px">
-                <div class="pb-0 pb-lg-0">
-                    <h2 class="fw-bold mb-0">
-                        {{ course.name }}
-                    </h2>
-                    <p class="mb-0">
-                        {{ course.description }}
-                    </p>
+            {% if course.is_publish %}
+            <div class="bg-light border-0 border-light d-flex flex-column justify-content-between flex-lg-row border rounded p-4 p-md-5 mb-3">
+                <div class="d-flex"><img src="{{ course.picture.url }}" style="width: 120px;border-radius: 4px;"></div>
+                <div class="d-flex flex-column justify-content-between ms-3" style="margin-left: -226px;padding-left: 0px;align: center;width: 700px">
+                    <div class="pb-0 pb-lg-0">
+                        <h2 class="fw-bold mb-0">
+                            {{ course.name }}
+                        </h2>
+                        <p class="mb-0">
+                            {{ course.description }}
+                        </p>
+                    </div>
+                     <div class="progress mt-auto" style="height: 12px;">
+                        <div class="progress-bar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: {{ percent }}%;background-color: #8fd57e;color: #50332c;display: flex;justify-content: center;align-items: center; ">{{ percent }}</div>
+                    </div>
                 </div>
-                 <div class="progress mt-auto" style="height: 12px;">
-                    <div class="progress-bar" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100" role="progressbar" style="width: {{ percent }}%;background-color: #8fd57e;color: #50332c;display: flex;justify-content: center;align-items: center; ">{{ percent }}</div>
-                </div>
+                <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" href="{% url 'course_single' course.id %}">Continue</a></div>
             </div>
-            <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" href="{% url 'course_single' course.id %}">Continue</a></div>
-        </div>
+            {% endif %}
         {% endfor %}
     </div>
 

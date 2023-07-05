@@ -21,7 +21,11 @@
         <!-- Start: Navbar Centered Links -->
         <nav class="navbar navbar-light navbar-expand-md py-3">
             <div class="container"><a class="navbar-brand d-flex align-items-center" href="{% url 'all_courses' %}"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="padding-top: 0px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;margin-top: 0px;width: 40px;height: 40px;"><img src="{% static 'lms/assets/img/easter-bunny-white.png' %}" width="27" height="27"></span><span>BunnyLearning Hub</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-3"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button><!-- Start: Search Input (responsive) -->
-                <div class="float-start float-md-end mt-5 mt-md-0 search-area"><i class="fas fa-search float-start search-icon"></i><input class="float-start float-sm-end custom-search-input" type="search" placeholder="Type to filter by address"></div><!-- End: Search Input (responsive) -->
+                <div class="float-start float-sm-end mt-5 mt-md-0 search-area">
+                    <i class="fas fa-search float-start search-icon"></i>
+                    <input class="float-start float-sm-end custom-search-input" type="search" id="course-search" placeholder="Type to search by course name">
+                </div>
+<!-- End: Search Input (responsive) -->
                 <div class="collapse navbar-collapse" id="navcol-3">
                     <ul class="navbar-nav mx-auto">
                         {% url 'assignments' as assignments_url %}
@@ -48,6 +52,23 @@
         {% block content %}{% endblock %}
     </div>
     <script src="{% static 'lms/assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.querySelector('#course-search');
+
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const searchQuery = searchInput.value.trim();
+                if (searchQuery !== '') {
+                    window.location.href = "{% url 'search' %}?query=" + encodeURIComponent(searchQuery);
+                }
+                event.preventDefault();
+            }
+        });
+    });
+    </script>
+
+
 </body>
 
 </html>
