@@ -132,3 +132,12 @@ def profile_edit(request):
         'profile': profile
     }
     return render(request, 'lms/profile_edit.html', context=context)
+
+@login_required
+def search(request):
+    query = request.GET.get('query')
+    if query:
+        search_results = Course.objects.filter(name__icontains=query)
+    else:
+        search_results = []
+    return render(request, 'lms/search.html', {'search_results': search_results})
