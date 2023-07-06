@@ -91,7 +91,9 @@ def module_single(request, course_id, module_id):
         if 'homework_form' in request.POST:
             google_drive_link = request.POST.get('google_drive_link')
             if google_drive_link:
-                HomeworkAnswer.objects.create(user=user, homework=assignment, google_disk_url_folder=google_drive_link, status='s')
+                homework_answer.google_disk_url_folder = google_drive_link
+                homework_answer.status = 's'
+                homework_answer.save()
                 return redirect('module_single', course_id=course_id, module_id=module_id)
         elif 'message_form' in request.POST:
             message = request.POST.get('message')
@@ -112,16 +114,34 @@ def module_single(request, course_id, module_id):
 @login_required
 def assignments(request):
     user = request.user
-    assignments = HomeworkAnswer.objects.filter(user=user).order_by('-homework__deadline', '-time_create')
-    profile = Profile.objects.filter(user=user).first()
+    assignments = HomeworkAnswer.objects.filter(user=user)
     completed_courses = Course.objects.filter(module__homework__homeworkanswer__user=user,
                                               module__homework__homeworkanswer__status='rat').distinct()
+    profile = Profile.objects.filter(user=user).first()
+    if request.method == "POST":
+        deadline = request.POST.get('deadline')
+        status = request.POST.get('status')
+        course = request.POST.get('course')
+
+        if status:
+            assignments = assignments.filter(status=status)
+        if course:
+            assignments = assignments.filter(homework__module__course_id=course)
+        if deadline:
+            if deadline == '-homework__deadline':
+                assignments = assignments.order_by('-homework__deadline')
+            else:
+                assignments = assignments.order_by('homework__deadline')
+
+    assignments = assignments.order_by('-time_update')
+
     context = {
         'user': user,
         'assignments': assignments,
         'completed_courses': completed_courses,
         'profile': profile,
     }
+
     return render(request, 'lms/students_assignments.html', context=context)
 
 
