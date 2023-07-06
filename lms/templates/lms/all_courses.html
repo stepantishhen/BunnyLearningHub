@@ -2,9 +2,17 @@
 {% load static %}
 {% block content %}
 <div class="container">
-        <h1>Available courses</h1>
+    <div class="float-start float-sm-end mt-5 mt-md-0 search-area">
+        <i class="fas fa-search float-start search-icon"></i>
+        <input class="float-start float-sm-end custom-search-input" type="search" id="course-search" placeholder="Type to search by course name">
     </div>
-    <div class="container" style="height: 500px;--bs-light: #50332c;--bs-light-rgb: 80,51,44;color: var(--bs-primary-bg-subtle); ">
+    <h1>Available courses</h1>
+</div>
+
+<div class="container search-results"></div>
+
+<div class="container" style="height: 500px;--bs-light: #50332c;--bs-light-rgb: 80,51,44;color: var(--bs-primary-bg-subtle); ">
+    <div id="course-results">
         {% for i in courses %}
             {% if i.is_publish %}
                 <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5 mb-3"  ><img src="{{ i.picture.url }}" style="width: 120px;border-radius: 4px;">
@@ -17,4 +25,53 @@
             {% endif %}
         {% endfor %}
     </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Отслеживание события ввода пользователем в поле поиска
+        $('#course-search').on('input', function() {
+            var inputText = $(this).val().trim();
+
+            // Проверка наличия текста в поле ввода
+            if (inputText !== '') {
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url "search_courses" %}',
+                    data: { search_text: inputText },
+                    success: function(response) {
+                        // Очистка результата поиска перед отображением новых результатов
+                        $('.search-results').empty();
+
+                        // Отображение результатов поиска
+                        response.forEach(function(course) {
+                            var courseHtml = `
+                                <div class="bg-light border rounded border-0 border-light d-flex flex-column justify-content-between flex-lg-row p-4 p-md-5 mb-3">
+                                    <img src="${course.picture}" style="width: 120px; border-radius: 4px;">
+                                    <div class="pb-2 pb-lg-1">
+                                        <h2 class="fw-bold mb-2" style="align: center; width:700px;">${course.name}</h2>
+                                        <p class="mb-0">Author: ${course.author}</p>
+                                    </div>
+                                    <div class="my-2">
+                                        <a class="btn btn-primary fs-5 py-2 px-4" role="button" href="${course.url}">View more</a>
+                                    </div>
+                                </div>
+                            `;
+                            $('.search-results').append(courseHtml);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                // Если поле ввода пустое, очищаем результаты поиска
+                $('.search-results').empty();
+            }
+        });
+    });
+</script>
+
+
 {% endblock %}
