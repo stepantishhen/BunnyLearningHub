@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.core.files.storage import default_storage
 from django.urls import reverse
 
@@ -162,12 +164,22 @@ def profile_edit(request):
     }
     return render(request, 'lms/profile_edit.html', context=context)
 
-
 @login_required
-def search(request):
-    query = request.GET.get('query')
-    if query:
-        search_results = Course.objects.filter(name__icontains=query)
-    else:
-        search_results = []
-    return render(request, 'lms/search.html', {'search_results': search_results})
+def search_courses(request):
+    search_text = request.GET.get('search_text', '').strip()
+
+    courses = Course.objects.filter(name__icontains=search_text, is_publish=True)
+
+    results = []
+    for course in courses:
+        result = {
+            'name': course.name,
+            'author': course.author.user.username,
+            'picture': course.picture.url,
+            'url': reverse('course_single', args=[course.id]),
+        }
+        results.append(result)
+
+    return JsonResponse(results, safe=False)
+
+

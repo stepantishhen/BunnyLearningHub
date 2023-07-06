@@ -10,5 +10,5 @@ urlpatterns = [
     path('assignments/',  assignments, name='assignments'),
     path('add_to_course/<int:course_id>/', add_to_course, name='add_to_course'),
     path('profile_edit/', profile_edit, name='profile_edit'),
-    path('all_courses/search', search, name='search')
+    path('search_courses/', search_courses, name='search_courses')
 ]
