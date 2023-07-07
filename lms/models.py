@@ -119,13 +119,16 @@ class HomeworkAnswer(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     description = models.CharField(max_length=255, verbose_name='Описание')
     social_link = models.URLField(verbose_name='Ссылка на соц. сеть', null=True, blank=True)
     avatar = models.ImageField(upload_to='picrures/', verbose_name='Аватарка')
 
     def __str__(self):
-        return f'{self.user.username}'
+        if self.user:
+            return f'{self.user.username}'
+        return ''
+
     class Meta:
         verbose_name_plural = 'Профили'
         verbose_name = 'Профиль'
