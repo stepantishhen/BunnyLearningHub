@@ -31,7 +31,7 @@ class Course(models.Model):
 
 
 class MessageCourse(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(verbose_name='Сообщение')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -48,7 +48,7 @@ class MessageCourse(models.Model):
 
 
 class MessageModule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     message = models.TextField(verbose_name='Сообщение')
     is_publish = models.BooleanField(default=True, verbose_name='Опубликовано')
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
@@ -100,9 +100,9 @@ class Homework(models.Model):
 
 
 class HomeworkAnswer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     homework = models.ForeignKey(Homework, on_delete=models.CASCADE, verbose_name='Домашнее задание')
-    google_disk_url_folder = models.URLField(verbose_name='Ссылка на папку в Google диске')
+    google_disk_url_folder = models.URLField(verbose_name='Ссылка на папку в Google диске', blank=True, null=True)
     time_create = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     time_update = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
     mark = models.IntegerField(null=True, default=0, verbose_name='Оценка')

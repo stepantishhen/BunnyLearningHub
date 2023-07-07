@@ -86,13 +86,13 @@ def module_single(request, course_id, module_id):
     module = Module.objects.get(course=course_id, pk=module_id)
     assignment = Homework.objects.filter(module=module).first()
     profile = Profile.objects.filter(user=user).first()
-    homework_answer = HomeworkAnswer.objects.filter(user=user, homework=assignment).first()
+    homework_answer = HomeworkAnswer.objects.filter(user=user, homework=assignment, homework__module=module).first()
     messages = MessageModule.objects.filter(module=module)
 
     if request.method == 'POST':
         if 'homework_form' in request.POST:
             google_drive_link = request.POST.get('google_drive_link')
-            if google_drive_link:
+            if google_drive_link and homework_answer:
                 homework_answer.google_disk_url_folder = google_drive_link
                 homework_answer.status = 's'
                 homework_answer.save()
