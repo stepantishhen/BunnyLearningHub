@@ -23,7 +23,7 @@ from BunnyLearningHub import settings
 from lms.urls import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('', index, name='index'),
     path('lms/', include('lms.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls'))
