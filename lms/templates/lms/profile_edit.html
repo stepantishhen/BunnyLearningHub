@@ -41,7 +41,15 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-12 content-right"><button class="btn btn-primary form-btn" type="submit">SAVE </button><button class="btn btn-danger form-btn" type="reset">CANCEL </button></div>
+                        <div class="col-md-12 content-right">
+                            <div class="float-start">
+                                <button class="btn btn-primary form-btn" type="submit">SAVE</button>
+                                <button class="btn btn-danger form-btn" type="reset">CANCEL</button>
+                            </div>
+                            <div class="float-end">
+                                <a class="btn btn-primary form-btn" href="{% url 'logout' %}">LOGOUT</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

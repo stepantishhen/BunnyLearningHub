@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -203,13 +203,15 @@ def search_courses(request):
     return JsonResponse(results, safe=False)
 
 
-def my_view(request):
+def my_view_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            if Group.objects.get(name="Author") in user.groups.all():
+                return redirect('admin:index')
             return redirect('all_courses')
         else:
             return redirect('lms:login')
@@ -224,17 +226,23 @@ def signup(request):
         second_name = request.POST.get('second_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        password_repeat = request.POST.get('password_repeat')
+        # password_repeat = request.POST.get('password_repeat')
         role = request.POST.get('role')
         user = User.objects.create_user(username, email, password)
         user.first_name = first_name
         user.last_name = second_name
+        user.is_staff = True
+        user.save()
         if role:
             my_group = Group.objects.get(name=role)
             my_group.user_set.add(user)
         return redirect('login')
     return render(request, 'lms/signup.html')
 
+
+def my_view_logout(request):
+    logout(request)
+    return redirect('login')
 
 def index(request):
     return render(request, 'lms/index.html')
