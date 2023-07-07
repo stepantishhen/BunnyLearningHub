@@ -1,9 +1,9 @@
+from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.template.loader import render_to_string
-from django.core.files.storage import default_storage
+from django.contrib.auth.models import Group
 from django.urls import reverse
 
 from lms.models import *
@@ -203,3 +203,38 @@ def search_courses(request):
     return JsonResponse(results, safe=False)
 
 
+def my_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('all_courses')
+        else:
+            return redirect('lms:login')
+    else:
+        return render(request, 'lms/login.html')
+
+
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        second_name = request.POST.get('second_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password_repeat = request.POST.get('password_repeat')
+        role = request.POST.get('role')
+        user = User.objects.create_user(username, email, password)
+        user.first_name = first_name
+        user.last_name = second_name
+        if role:
+            my_group = Group.objects.get(name=role)
+            my_group.user_set.add(user)
+        return redirect('login')
+    return render(request, 'lms/signup.html')
+
+
+def index(request):
+    return render(request, 'lms/index.html')
