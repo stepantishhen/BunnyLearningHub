@@ -1,9 +1,12 @@
+import re
+
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth.models import Group
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 from lms.models import *
@@ -80,6 +83,7 @@ def my_courses(request):
                   context=context)
 
 
+# TODO: Отправка домашнего задания
 @login_required
 def module_single(request, course_id, module_id):
     user = request.user
@@ -92,10 +96,16 @@ def module_single(request, course_id, module_id):
     if request.method == 'POST':
         if 'homework_form' in request.POST:
             google_drive_link = request.POST.get('google_drive_link')
-            if google_drive_link and homework_answer:
+            regex = r"https:\/\/drive\.google\.com\/drive\/folders\/[a-zA-Z0-9_-]+"
+            match = re.match(regex, google_drive_link)
+            if google_drive_link and match and homework_answer:
                 homework_answer.google_disk_url_folder = google_drive_link
                 homework_answer.status = 's'
                 homework_answer.save()
+                return redirect('module_single', course_id=course_id, module_id=module_id)
+            elif google_drive_link and match and not homework_answer:
+                HomeworkAnswer.objects.create(user=user, homework=assignment, google_disk_url_folder=google_drive_link,
+                                              status='s')
                 return redirect('module_single', course_id=course_id, module_id=module_id)
         elif 'message_form' in request.POST:
             message = request.POST.get('message')
@@ -113,36 +123,46 @@ def module_single(request, course_id, module_id):
     return render(request, 'lms/module_single.html', context=context)
 
 
+# TODO: фильтрация и сортировка, через адресную строку
 @login_required
 def assignments(request):
     user = request.user
-    assignments = HomeworkAnswer.objects.filter(user=user)
-    completed_courses = Course.objects.filter(module__homework__homeworkanswer__user=user,
-                                              module__homework__homeworkanswer__status='rat').distinct()
+    homeworks_ans = HomeworkAnswer.objects.all()
+    user_courses = user.enrolled_courses.all()
     profile = Profile.objects.filter(user=user).first()
-    if request.method == "POST":
-        deadline = request.POST.get('deadline')
-        status = request.POST.get('status')
-        course = request.POST.get('course')
 
-        if status:
-            assignments = assignments.filter(status=status)
-        if course:
-            assignments = assignments.filter(homework__module__course_id=course)
-        if deadline:
-            if deadline == '-homework__deadline':
-                assignments = assignments.order_by('-homework__deadline')
-            else:
-                assignments = assignments.order_by('homework__deadline')
+    deadline = request.GET.get('deadline')
+    status = request.GET.get('status')
+    course = request.GET.get('course')
 
-    assignments = assignments.order_by('-time_update')
+    assignments = Homework.objects.all()
+
+    # Применение фильтрации и сортировки
+    if status:
+        assignments = assignments.filter(homeworkanswer__status=status)
+    if course:
+        assignments = assignments.filter(module__course_id=course)
+    if deadline:
+        print(deadline)
+        if deadline == '-deadline':
+            assignments = assignments.order_by('-deadline')
+        else:
+            assignments = assignments.order_by('deadline')
+    else:
+        assignments = assignments.order_by('-time_update')
 
     context = {
         'user': user,
         'assignments': assignments,
-        'completed_courses': completed_courses,
+        'user_courses': user_courses,
         'profile': profile,
+        'homeworks_ans': homeworks_ans,
     }
+
+    if is_ajax(request):
+        # Возвращаем JSON-ответ с отфильтрованными и отсортированными данными
+        assignments_html = render_to_string('lms/assignments_list.html', context=context)
+        return JsonResponse({'assignments_html': assignments_html})
 
     return render(request, 'lms/students_assignments.html', context=context)
 
@@ -184,6 +204,7 @@ def profile_edit(request):
     }
     return render(request, 'lms/profile_edit.html', context=context)
 
+
 @login_required
 def search_courses(request):
     search_text = request.GET.get('search_text', '').strip()
@@ -214,7 +235,7 @@ def my_view_login(request):
                 return redirect('admin:index')
             return redirect('all_courses')
         else:
-            return redirect('lms:login')
+            return redirect('login')
     else:
         return render(request, 'lms/login.html')
 
@@ -244,5 +265,10 @@ def my_view_logout(request):
     logout(request)
     return redirect('login')
 
+
 def index(request):
     return render(request, 'lms/index.html')
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'

@@ -1,0 +1,18 @@
+{% for assignment in assignments %}
+    <div class="card mb-3" style="border-style: none;">
+    <div class="card-body" style="border: 1px solid #986155;border-radius: 6px;margin-top: 0px;">
+        <h1 style="font-size: 20px;">{{ assignment.module }}</h1>
+        <h6 class="text-muted card-subtitle mb-2">{{ assignment.module.course }}</h6>
+        <p class="card-text">Deadline: {{ assignment.deadline }}</p>
+        {% for homework_answer in assignment.homeworkanswer_set.all %}
+                <p class="card-text">Status: {{ homework_answer.get_status_display }}</p>
+                <p class="card-text">Mark: {{ homework_answer.mark }}</p>
+            {% empty %}
+                <p class="card-text">Status: Not submitted</p>
+            {% endfor %}
+        <a class="btn btn-primary" href="{% url 'module_single' assignment.module.course.pk assignment.module.pk %}" style="margin-left: auto;">Open</a>
+    </div>
+    </div>
+{% empty %}
+    <p>No assignments found.</p>
+{% endfor %}
