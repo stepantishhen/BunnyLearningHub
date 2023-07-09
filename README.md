@@ -3,10 +3,6 @@
 # Чтобы запустить:
 `git clone https://github.com/stepantishhen/BunnyLearningHub`
 
-`cd BunnyLearningHub/`
-
-`git switch dev`
-
 `pip install -r requirements.txt`
 
 !Помести взятый у товарища файлик db.sqlite3 в корень папки (рядом с manage.py)!
