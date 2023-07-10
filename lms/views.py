@@ -83,7 +83,6 @@ def my_courses(request):
                   context=context)
 
 
-# TODO: Отправка домашнего задания
 @login_required
 def module_single(request, course_id, module_id):
     user = request.user
@@ -123,7 +122,6 @@ def module_single(request, course_id, module_id):
     return render(request, 'lms/module_single.html', context=context)
 
 
-# TODO: фильтрация и сортировка, через адресную строку
 @login_required
 def assignments(request):
     user = request.user
